@@ -7,6 +7,7 @@ PVector v1,v2,v3,v4;
 int gridCounter;
 float wobbly;
 boolean record;
+boolean recordToggle;
 
 void setup() {
   size(700, 800);
@@ -15,30 +16,34 @@ void setup() {
   
   cp5 = new ControlP5(this);
   cp5.addSlider("wobbly")
-     .setPosition(20,height-50)
+     .setPosition(35,height-35)
      .setRange(0,50)
      .setSize(200,30)
      .setValue(0)
      ;
   cp5.addButton("engage")
      .setValue(0)
-     .setPosition(300,height-50)
+     .setPosition(310,height-35)
      .setSize(100,30)
      ;
-  
+  cp5.addToggle("recordToggle")
+     .setValue(0)
+     .setPosition(480,height-35)
+     .setSize(100,30)
+     ;
   drawGrid();
 }
 
 void draw(){
 }
 
-public void engage(int theValue) {
+public void engage() {
   record = true;
   drawGrid();
 }
 
 void drawGrid(){
-    if (record) {
+    if (record && recordToggle) {
     beginRecord(PDF,month()+"_"+day()+"_"+hour()+minute()+"_"+second()+".pdf"); 
   }
   float gridX,gridY;
