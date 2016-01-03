@@ -10,14 +10,15 @@ boolean record;
 
 void setup() {
   size(700, 800);
-  gridCounter = 13;
+  gridCounter = 10;
   wobbly = 1;
   
   cp5 = new ControlP5(this);
   cp5.addSlider("wobbly")
      .setPosition(20,height-50)
-     .setRange(0,8)
+     .setRange(0,50)
      .setSize(200,30)
+     .setValue(0)
      ;
   cp5.addButton("engage")
      .setValue(0)
@@ -52,18 +53,19 @@ void drawGrid(){
   }
     if (record) {
     endRecord();
-  record = false;
+    record = false;
   }
 }
 
 void drawPoly(float _gridX, float _gridY){
   float centerX = _gridX;
   float centerY = _gridY;
+  float leftTop = (width/gridCounter)/2;
   
-  v1 = new PVector(random(-10*wobbly,3*wobbly),-50);
-  v2 = new PVector(random(3*wobbly,10*wobbly),-50);
-  v3 = new PVector(random(3*wobbly,10*wobbly),0);
-  v4 = new PVector(random(-10*wobbly,3*wobbly),0);
+  v1 = new PVector(0-leftTop+random(-wobbly,wobbly),0-leftTop);
+  v2 = new PVector(leftTop+random(-wobbly,wobbly),0-leftTop);
+  v3 = new PVector(leftTop+random(-wobbly,wobbly),leftTop);
+  v4 = new PVector(0-leftTop+random(-wobbly,wobbly),leftTop);
   
   pushMatrix();
   translate(centerX, centerY);
