@@ -1,13 +1,18 @@
 import processing.pdf.*;
 import controlP5.*;
 
+
 ControlP5 cp5;
+ArrayList<Trapez> trapezes = new ArrayList<Trapez>();
 
 PVector v1,v2,v3,v4;
 int gridCounter;
 float wobbly;
 boolean record;
 boolean recordToggle;
+
+int timeDelay = 5000; //milliseconds in one minute
+int time = 0;
 
 void setup() {
   size(700, 800);
@@ -35,11 +40,32 @@ void setup() {
 }
 
 void draw(){
+  if(millis()-time>=timeDelay){
+    int dice = int(random(0,trapezes.size()));
+    for (int i = 0; i < trapezes.size(); i++) {
+      if (i == dice){
+      Trapez trap = trapezes.get(i);
+      trap.reCalcDisplay();
+      }
+      else {
+      Trapez trap = trapezes.get(i);
+      trap.display();
+      }
+  }
+    Trapez trap = trapezes.get(dice);
+    trap.reCalcDisplay();
+    time=millis();
+   }
 }
 
 public void engage() {
+  background(230);
+  print(trapezes.size()+" ");
   record = true;
-  drawGrid();
+      for (int i = 0; i < trapezes.size(); i++) {
+    Trapez trap = trapezes.get(i);
+    trap.reCalcDisplay();
+  }
 }
 
 void drawGrid(){
@@ -53,35 +79,15 @@ void drawGrid(){
     for (int j = 1; j < gridCounter; j++) {
       gridX = width/gridCounter*i;
       gridY = height/gridCounter*j;
-      drawPoly(gridX,gridY);
+      trapezes.add(new Trapez(gridX,gridY,gridCounter,wobbly));
     }
+  }
+  for (int i = 0; i < trapezes.size(); i++) {
+    Trapez trap = trapezes.get(i);
+    trap.reCalcDisplay();
   }
     if (record) {
     endRecord();
     record = false;
   }
-}
-
-void drawPoly(float _gridX, float _gridY){
-  float centerX = _gridX;
-  float centerY = _gridY;
-  float leftTop = (width/gridCounter)/2;
-  
-  v1 = new PVector(0-leftTop+random(-wobbly,wobbly),0-leftTop);
-  v2 = new PVector(leftTop+random(-wobbly,wobbly),0-leftTop);
-  v3 = new PVector(leftTop+random(-wobbly,wobbly),leftTop);
-  v4 = new PVector(0-leftTop+random(-wobbly,wobbly),leftTop);
-  
-  pushMatrix();
-  translate(centerX, centerY);
-  noFill();
-  strokeWeight(1);
-  beginShape();
-  vertex(v1.x,v1.y);
-  vertex(v2.x,v2.y);
-  vertex(v3.x,v3.y);
-  vertex(v4.x,v4.y);
-  endShape(CLOSE);
-  popMatrix();
-  
 }
