@@ -1,3 +1,6 @@
+import de.looksgood.ani.*;
+import de.looksgood.ani.easing.*;
+
 import processing.pdf.*;
 import controlP5.*;
 
@@ -11,10 +14,15 @@ float wobbly;
 boolean record;
 boolean recordToggle;
 
-int timeDelay = 5000; //milliseconds in one minute
+boolean displayControl = true;
+
+int timeDelay = 600; //milliseconds in one minute
 int time = 0;
 
 void setup() {
+  Ani.init(this);
+  Ani.setDefaultEasing(Ani.QUAD_IN_OUT);
+  smooth();
   size(700, 800);
   gridCounter = 10;
   wobbly = 1;
@@ -40,22 +48,27 @@ void setup() {
 }
 
 void draw(){
+  background(230);
+  for (int i = 0; i < trapezes.size(); i++) {
+    Trapez trap = trapezes.get(i);
+    trap.display();
+  }
   if(millis()-time>=timeDelay){
     int dice = int(random(0,trapezes.size()));
     for (int i = 0; i < trapezes.size(); i++) {
       if (i == dice){
       Trapez trap = trapezes.get(i);
-      trap.reCalcDisplay();
-      }
-      else {
-      Trapez trap = trapezes.get(i);
-      trap.display();
+      trap.animDisplay();
       }
   }
-    Trapez trap = trapezes.get(dice);
-    trap.reCalcDisplay();
     time=millis();
    }
+  if (displayControl == false) {
+    cp5.hide();
+  }
+  else {
+    cp5.show();
+  }
 }
 
 public void engage() {
@@ -89,5 +102,14 @@ void drawGrid(){
     if (record) {
     endRecord();
     record = false;
+  }
+}
+
+void keyPressed() {
+  if (key == 'a') {
+    displayControl = false;
+  }
+  if (key == 's') {
+    displayControl = true;
   }
 }
