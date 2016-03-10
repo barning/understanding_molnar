@@ -2,10 +2,9 @@ import de.looksgood.ani.*;
 import de.looksgood.ani.easing.*;
 
 import processing.pdf.*;
-import controlP5.*;
 
+boolean positive;
 
-ControlP5 cp5;
 ArrayList<Trapez> trapezes = new ArrayList<Trapez>();
 
 PVector v1,v2,v3,v4;
@@ -20,30 +19,13 @@ int timeDelay = 600; //milliseconds in one minute
 int time = 0;
 
 void setup() {
+  wobbly = 0;
+  positive = true;
   Ani.init(this);
   Ani.setDefaultEasing(Ani.QUAD_IN_OUT);
   smooth();
   size(1000, 1000);
   gridCounter = 15;
-  wobbly = 1;
-  
-  cp5 = new ControlP5(this);
-  cp5.addSlider("wobbly")
-     .setPosition(35,height-35)
-     .setRange(0,50)
-     .setSize(200,30)
-     .setValue(30)
-     ;
-  cp5.addButton("engage")
-     .setValue(0)
-     .setPosition(310,height-35)
-     .setSize(100,30)
-     ;
-  cp5.addToggle("recordToggle")
-     .setValue(0)
-     .setPosition(480,height-35)
-     .setSize(100,30)
-     ;
   drawGrid();
 }
 
@@ -54,20 +36,30 @@ void draw(){
     trap.display();
   }
   if(millis()-time>=timeDelay){
-    int dice = int(random(0,trapezes.size()));
+    timeDelay = int(random(1000,3000));
+    int dice1 = int(random(0,trapezes.size()));
+    int dice2 = int(random(0,trapezes.size()));
+    int dice3 = int(random(0,trapezes.size()));
+    int dice4 = int(random(0,trapezes.size()));
+    int dice5 = int(random(0,trapezes.size()));
     for (int i = 0; i < trapezes.size(); i++) {
-      if (i == dice){
+      if (i == dice1 || i == dice2 || i == dice3 || i == dice4 || i == dice5 ){
       Trapez trap = trapezes.get(i);
       trap.animDisplay();
       }
-  }
+    }
+    print(wobbly);
     time=millis();
-   }
-  if (displayControl == false) {
-    cp5.hide();
-  }
-  else {
-    cp5.show();
+    if (wobbly <= 100 && positive){
+      wobbly += 1;
+    }
+    else {
+      positive = false;
+      wobbly -= 1;
+    }
+    if (!positive && wobbly <= 0){
+      positive = true;
+    }
   }
 }
 
@@ -102,14 +94,5 @@ void drawGrid(){
     if (record) {
     endRecord();
     record = false;
-  }
-}
-
-void keyPressed() {
-  if (key == 'a') {
-    displayControl = false;
-  }
-  if (key == 's') {
-    displayControl = true;
   }
 }
