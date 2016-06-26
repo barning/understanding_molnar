@@ -12,8 +12,9 @@ class Cube {
   void Display(){
   noStroke();
   pushMatrix();
-  translate(myCenterX,myCenterY,0); 
-  box(40,40,5);
+  translate(myCenterX,myCenterY,0);
+  fill(10);
+  box(40,40,0);
   popMatrix();
     
   }

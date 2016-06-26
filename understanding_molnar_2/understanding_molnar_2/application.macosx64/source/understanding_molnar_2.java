@@ -39,31 +39,37 @@ int time = 0;
 
 public void setup(){
   
+  //fullScreen(P3D);
   video = new Capture(this, width/2, height/2);
   opencv = new OpenCV(this, width/2, height/2);
   opencv.loadCascade(OpenCV.CASCADE_FRONTALFACE);
   video.start();
-  gridCounter = 13;
-  lights();
+  gridCounter = 15;
   Ani.init(this);
   Ani.setDefaultEasing(Ani.QUAD_IN_OUT);
   initGrid();
 }
 
 public void draw(){
-  background(230);
+  background(0xffc0bbbf);
+  lightFalloff(1.0f, 0.005f, 0.0f);
+  ambientLight(179, 174, 171);
+  ambient(0xffb3aeab);
+  lightSpecular(206, 214, 217);
+  specular(206, 214, 217);
+  shininess(1.0f); 
+  //emissive(#2a2529);
   pushMatrix(); 
   scale(2);
   opencv.loadImage(video);
   opencv.flip(OpenCV.HORIZONTAL);
   Rectangle[] faces = opencv.detect();
-  //println(faces.length);
+
   for (int i = 0; i < faces.length; i++) {
-    pointLight(100, 100, 100, faces[i].x+50, faces[i].y+20, faces[i].width/5);
+    pointLight(201, 205, 232, faces[i].x+50, faces[i].y+20, faces[i].width/2);
 
   }
   popMatrix();
-  ambientLight(150, 150, 150);
   for (int i = 0; i < cubes.size(); i++) {
     Cube cub = cubes.get(i);
     cub.Display();
@@ -112,8 +118,9 @@ class Cube {
   public void Display(){
   noStroke();
   pushMatrix();
-  translate(myCenterX,myCenterY,0); 
-  box(40,40,5);
+  translate(myCenterX,myCenterY,0);
+  fill(10);
+  box(40,40,0);
   popMatrix();
     
   }
@@ -125,7 +132,7 @@ class Cube {
 }
   public void settings() {  size(800, 700,P3D); }
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "--present", "--window-color=#E6E6E6", "--stop-color=#cccccc", "understanding_molnar_2" };
+    String[] appletArgs = new String[] { "--present", "--window-color=#C0BBBF", "--stop-color=#cccccc", "understanding_molnar_2" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {

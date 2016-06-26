@@ -17,31 +17,37 @@ int time = 0;
 
 void setup(){
   size(800, 700,P3D);
+  //fullScreen(P3D);
   video = new Capture(this, width/2, height/2);
   opencv = new OpenCV(this, width/2, height/2);
   opencv.loadCascade(OpenCV.CASCADE_FRONTALFACE);
   video.start();
-  gridCounter = 13;
-  lights();
+  gridCounter = 15;
   Ani.init(this);
   Ani.setDefaultEasing(Ani.QUAD_IN_OUT);
   initGrid();
 }
 
 void draw(){
-  background(230);
+  background(#c0bbbf);
+  lightFalloff(1.0, 0.005, 0.0);
+  ambientLight(179, 174, 171);
+  ambient(#b3aeab);
+  lightSpecular(206, 214, 217);
+  specular(206, 214, 217);
+  shininess(1.0); 
+  //emissive(#2a2529);
   pushMatrix(); 
   scale(2);
   opencv.loadImage(video);
   opencv.flip(OpenCV.HORIZONTAL);
   Rectangle[] faces = opencv.detect();
-  //println(faces.length);
+
   for (int i = 0; i < faces.length; i++) {
-    pointLight(100, 100, 100, faces[i].x+50, faces[i].y+20, faces[i].width/5);
+    pointLight(201, 205, 232, faces[i].x+50, faces[i].y+20, faces[i].width/2);
 
   }
   popMatrix();
-  ambientLight(150, 150, 150);
   for (int i = 0; i < cubes.size(); i++) {
     Cube cub = cubes.get(i);
     cub.Display();
