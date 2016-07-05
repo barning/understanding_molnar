@@ -30,12 +30,15 @@ public class understanding_molnar_2 extends PApplet {
 int gridCounter;
 ArrayList<Cube> cubes = new ArrayList<Cube>();
 
+Ani thisAniLight;
 
 Capture video;
 OpenCV opencv;
 
 int timeDelay = 600; //milliseconds in one minute
 int time = 0;
+
+float lightCenterX, lightCenterY, lightWidth;
 
 public void setup(){
   
@@ -66,9 +69,17 @@ public void draw(){
   Rectangle[] faces = opencv.detect();
 
   for (int i = 0; i < faces.length; i++) {
-    pointLight(201, 205, 232, faces[i].x+50, faces[i].y+20, faces[i].width/2);
-
+    lightCenterX = faces[i].x+50;
+    lightCenterY = faces[i].y+20;
+    lightWidth = faces[i].width/2;
+   }
+  if (faces.length == 0){
+    thisAniLight = Ani.to(this, 0.5f, "lightCenterX", width/4);
+    thisAniLight = Ani.to(this, 0.5f, "lightCenterY", height/4);
+    lightWidth = 60;
   }
+  pointLight(201, 205, 232, lightCenterX, lightCenterY, lightWidth);
+  
   popMatrix();
   for (int i = 0; i < cubes.size(); i++) {
     Cube cub = cubes.get(i);
@@ -132,7 +143,7 @@ class Cube {
 }
   public void settings() {  size(800, 700,P3D); }
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "--present", "--window-color=#C0BBBF", "--stop-color=#cccccc", "understanding_molnar_2" };
+    String[] appletArgs = new String[] { "--present", "--window-color=#C0BBBF", "--stop-color=#898686", "understanding_molnar_2" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {

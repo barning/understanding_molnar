@@ -48,7 +48,7 @@ void draw(){
       trap.animDisplay();
       }
     }
-    print(wobbly);
+    //print(wobbly);
     time=millis();
     if (wobbly <= 100 && positive){
       wobbly += 1;

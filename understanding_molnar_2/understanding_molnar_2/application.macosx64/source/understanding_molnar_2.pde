@@ -8,12 +8,15 @@ import de.looksgood.ani.easing.*;
 int gridCounter;
 ArrayList<Cube> cubes = new ArrayList<Cube>();
 
+Ani thisAniLight;
 
 Capture video;
 OpenCV opencv;
 
 int timeDelay = 600; //milliseconds in one minute
 int time = 0;
+
+float lightCenterX, lightCenterY, lightWidth;
 
 void setup(){
   size(800, 700,P3D);
@@ -44,9 +47,17 @@ void draw(){
   Rectangle[] faces = opencv.detect();
 
   for (int i = 0; i < faces.length; i++) {
-    pointLight(201, 205, 232, faces[i].x+50, faces[i].y+20, faces[i].width/2);
-
+    lightCenterX = faces[i].x+50;
+    lightCenterY = faces[i].y+20;
+    lightWidth = faces[i].width/2;
+   }
+  if (faces.length == 0){
+    thisAniLight = Ani.to(this, 0.5f, "lightCenterX", width/4);
+    thisAniLight = Ani.to(this, 0.5f, "lightCenterY", height/4);
+    lightWidth = 60;
   }
+  pointLight(201, 205, 232, lightCenterX, lightCenterY, lightWidth);
+  
   popMatrix();
   for (int i = 0; i < cubes.size(); i++) {
     Cube cub = cubes.get(i);
