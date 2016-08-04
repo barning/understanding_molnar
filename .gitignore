@@ -5,3 +5,5 @@ application.linux64
 application.windows32
 application.windows64
 application.macosx
+understanding_molnar_1/application.macosx64
+understanding_molnar_2/application.macosx64
