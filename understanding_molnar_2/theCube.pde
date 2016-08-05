@@ -18,9 +18,4 @@ class Cube {
   popMatrix();
     
   }
-  
-  void animDisplay(){
-        float randomY = myCenterY + random(-5,5);
-        thisAni = Ani.to(this, 0.2f, "myCenterY", randomY);
-  }
 }

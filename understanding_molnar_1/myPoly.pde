@@ -15,10 +15,10 @@ class Trapez {
   
   void reCalcDisplay(){
   
-    v1 = new PVector(0-myLeftTop+random(-wobbly,wobbly),0-myLeftTop);
-    v2 = new PVector(myLeftTop+random(-wobbly,wobbly),0-myLeftTop);
-    v3 = new PVector(myLeftTop+random(-wobbly,wobbly),myLeftTop);
-    v4 = new PVector(0-myLeftTop+random(-wobbly,wobbly),myLeftTop);
+    v1 = new PVector(0-myLeftTop+random(-chaos,chaos),0-myLeftTop);
+    v2 = new PVector(myLeftTop+random(-chaos,chaos),0-myLeftTop);
+    v3 = new PVector(myLeftTop+random(-chaos,chaos),myLeftTop);
+    v4 = new PVector(0-myLeftTop+random(-chaos,chaos),myLeftTop);
     
     pushMatrix();
     translate(myCenterX, myCenterY);
@@ -50,14 +50,11 @@ class Trapez {
   }
   
   void animDisplay(){
-
     
-    anv1 = new PVector(0-myLeftTop+random(-wobbly,wobbly),0-myLeftTop);
-    anv2 = new PVector(myLeftTop+random(-wobbly,wobbly),0-myLeftTop);
-    anv3 = new PVector(myLeftTop+random(-wobbly,wobbly),myLeftTop);
-    anv4 = new PVector(0-myLeftTop+random(-wobbly,wobbly),myLeftTop);
-    
-    //print("NEU "+oldv1+" "+v1);
+    anv1 = new PVector(0-myLeftTop+random(-chaos,chaos),0-myLeftTop);
+    anv2 = new PVector(myLeftTop+random(-chaos,chaos),0-myLeftTop);
+    anv3 = new PVector(myLeftTop+random(-chaos,chaos),myLeftTop);
+    anv4 = new PVector(0-myLeftTop+random(-chaos,chaos),myLeftTop);
     
     thisAniX1 = Ani.to(v1, 0.2f, "x", anv1.x);
     thisAniY1 = Ani.to(v1, 0.2f, "y", anv1.y);
